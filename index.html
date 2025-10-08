@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTD Store - Connect Farmers & Local Shops</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <p>Loading MTD Store...</p>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-container" id="login-page">
+        <div class="login-box">
+            <div class="logo-header">
+                <i class="fas fa-seedling"></i>
+                <h1>MTD Store</h1>
+            </div>
+            <p class="tagline">Connecting Farmers & Local Shops</p>
+            
+            <div class="login-options">
+                <div class="login-option" data-role="admin">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin Login</span>
+                </div>
+                <div class="login-option" data-role="buyer">
+                    <i class="fas fa-store"></i>
+                    <span>Buyer Login</span>
+                </div>
+                <div class="login-option" data-role="seller">
+                    <i class="fas fa-tractor"></i>
+                    <span>Seller Login</span>
+                </div>
+            </div>
+            
+            <div class="login-form" id="admin-form">
+                <h3><i class="fas fa-user-shield"></i> Admin Login</h3>
+                <div class="form-group">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" id="admin-login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+            
+            <div class="login-form" id="buyer-form">
+                <h3><i class="fas fa-store"></i> Buyer Login</h3>
+                <div class="form-group">
+                    <label for="buyer-username">Username</label>
+                    <input type="text" id="buyer-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="buyer-password">Password</label>
+                    <input type="password" id="buyer-password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" id="buyer-login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+            
+            <div class="login-form" id="seller-form">
+                <h3><i class="fas fa-tractor"></i> Seller Login</h3>
+                <div class="form-group">
+                    <label for="seller-username">Username</label>
+                    <input type="text" id="seller-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="seller-password">Password</label>
+                    <input type="password" id="seller-password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" id="seller-login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buyer Dashboard -->
+    <div class="dashboard" id="buyer-dashboard">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username" id="buyer-username-display">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="view-orders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                        <a href="#" id="buyer-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">Fresh Products Available</h2>
+            <div class="products-grid" id="buyer-products">
+                <!-- Products loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Seller Dashboard -->
+    <div class="dashboard" id="seller-dashboard">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <span class="username" id="seller-username-display">Seller</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="view-sales"><i class="fas fa-chart-line"></i> Sales Analytics</a>
+                        <a href="#" id="view-products"><i class="fas fa-boxes"></i> My Products</a>
+                        <a href="#" id="view-upi-settings"><i class="fas fa-money-bill-wave"></i> UPI Settings</a>
+                        <a href="#" id="seller-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="seller-tabs">
+                <button class="tab-btn active" data-tab="add-product">Add Product</button>
+                <button class="tab-btn" data-tab="my-products">My Products</button>
+                <button class="tab-btn" data-tab="sales-analytics">Sales Analytics</button>
+            </div>
+
+            <div class="tab-content active" id="add-product-tab">
+                <h2 class="page-title">Add New Product</h2>
+                <div class="card add-product-form">
+                    <div class="form-section">
+                        <label for="product-image">Product Image</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="image-preview">
+                                <i class="fas fa-image"></i>
+                                <span>No image selected</span>
+                            </div>
+                            <input type="file" id="product-image" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-secondary" id="upload-image-btn">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <label for="product-image-url">Or Enter Image URL</label>
+                        <input type="text" id="product-image-url" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                        <small style="color: var(--text-gray); font-size: 12px; margin-top: 4px; display: block;">
+                            Enter a direct image URL instead of uploading
+                        </small>
+                    </div>
+                    
+                    <div class="form-section">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" placeholder="Enter product name">
+                    </div>
+                    <div class="form-section">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" placeholder="Enter product description"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label for="product-price">Price per kg (₹)</label>
+                            <input type="number" id="product-price" placeholder="Enter price">
+                        </div>
+                        <div class="form-section">
+                            <label for="product-quantity">Available Quantity (kg)</label>
+                            <input type="number" id="product-quantity" placeholder="Enter quantity">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="add-product">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="my-products-tab">
+                <h2 class="page-title">My Products</h2>
+                <div class="products-grid" id="seller-products">
+                    <!-- Seller's products loaded by JavaScript -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="sales-analytics-tab">
+                <h2 class="page-title">Sales Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-orders">0</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="total-revenue">0</span></div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="products-listed">0</div>
+                            <div class="stat-label">Products Listed</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="total-commission">0</span></div>
+                            <div class="stat-label">Total Commission</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="net-revenue">0</span></div>
+                            <div class="stat-label">Net Revenue</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Recent Orders</h3>
+                    <div class="orders-list" id="seller-orders">
+                        <!-- Orders loaded by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="edit-product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <button class="close-btn" id="close-edit-product">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-product-id">
+                
+                <div class="form-group">
+                    <label for="edit-product-image-url">Product Image URL</label>
+                    <input type="text" id="edit-product-image-url" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                    <small style="color: var(--text-gray); font-size: 12px; margin-top: 4px; display: block;">
+                        Enter a direct image URL or upload an image below
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Or Upload Image</label>
+                    <div class="image-upload-container">
+                        <div class="image-preview" id="edit-image-preview">
+                            <i class="fas fa-image"></i>
+                            <span>No image selected</span>
+                        </div>
+                        <input type="file" id="edit-product-image" accept="image/*" style="display: none;">
+                        <button type="button" class="btn btn-secondary" id="edit-upload-image-btn">
+                            <i class="fas fa-upload"></i> Upload Image
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input type="text" id="edit-product-name" placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-description">Description</label>
+                    <textarea id="edit-product-description" placeholder="Enter product description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-price">Price per kg (₹)</label>
+                        <input type="number" id="edit-product-price" placeholder="Enter price">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-quantity">Available Quantity (kg)</label>
+                        <input type="number" id="edit-product-quantity" placeholder="Enter quantity">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-edit-product">Cancel</button>
+                <button class="btn btn-primary" id="save-product">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="dashboard" id="admin-dashboard">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <span class="username" id="admin-username-display">Admin</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="admin-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">Admin Dashboard</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-buyers">0</div>
+                        <div class="stat-label">Total Buyers</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-sellers">0</div>
+                        <div class="stat-label">Total Sellers</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-orders-admin">0</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">₹<span id="total-revenue-admin">0</span></div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">₹<span id="total-commission-admin">0</span></div>
+                        <div class="stat-label">Total Commission</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="user-management">User Management</button>
+                <button class="tab-btn" data-tab="system-analytics">System Analytics</button>
+            </div>
+
+            <div class="tab-content active" id="user-management-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>User Management</h3>
+                        <button class="btn btn-primary" id="add-user-btn">
+                            <i class="fas fa-plus"></i> Add User
+                        </button>
+                    </div>
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Join Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table-body">
+                            <!-- Users loaded by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content" id="system-analytics-tab">
+                <div class="card">
+                    <h3>Platform Overview</h3>
+                    <div class="analytics-content">
+                        <div class="analytics-item">
+                            <h4>Top Selling Products</h4>
+                            <div id="top-products">
+                                <!-- Top products loaded by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="analytics-item">
+                            <h4>Recent Activity</h4>
+                            <div id="recent-activity">
+                                <!-- Recent activity loaded by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Page -->
+    <div class="dashboard" id="order-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="order-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="order-container">
+                <div class="card order-card">
+                    <div class="order-image" id="order-product-image">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="order-details">
+                        <h2 id="order-product-name">Product Name</h2>
+                        <p id="order-product-description">Product description will appear here.</p>
+                        <div class="product-price" id="order-product-price">₹0 per kg</div>
+                        <div class="seller-info">
+                            <i class="fas fa-user"></i>
+                            Seller: <span id="order-seller">Unknown</span>
+                        </div>
+                        
+                        <div class="quantity-selector">
+                            <label>Quantity (kg):</label>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" id="decrease-quantity">-</button>
+                                <input type="number" id="order-quantity" value="1" min="1">
+                                <button class="quantity-btn" id="increase-quantity">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="summary-item">
+                                <span>Price per kg:</span>
+                                <span id="summary-price">₹0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Quantity:</span>
+                                <span id="summary-quantity">0 kg</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount:</span>
+                                <span>₹<span id="order-total">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-large" id="place-order">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div class="dashboard" id="payment-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products-from-payment"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="payment-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="order-container">
+                <div class="card">
+                    <h2 class="page-title">Complete Payment</h2>
+                    
+                    <div class="payment-details">
+                        <div class="delivery-timer">
+                            <h3>🚚 Fast Delivery Guaranteed</h3>
+                            <div class="time-remaining">Your order will be delivered within 24 hours</div>
+                            <div class="countdown-timer" id="countdown-timer">
+                                <!-- Countdown will be loaded by JavaScript -->
+                            </div>
+                            <div>Expected by: <span id="delivery-time">-</span></div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Order Summary</h3>
+                            <div class="summary-item">
+                                <span>Order ID:</span>
+                                <span id="payment-order-id">-</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount:</span>
+                                <span>₹<span id="payment-amount">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-breakdown">
+                            <h4>Payment Breakdown</h4>
+                            <div class="summary-item">
+                                <span>Seller UPI ID:</span>
+                                <span id="seller-upi-id" style="font-weight: 600; color: var(--primary-green);">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Admin Commission (5%):</span>
+                                <span>₹<span id="commission-amount">0</span></span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Seller Receives (95%):</span>
+                                <span>₹<span id="seller-amount">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="commission-display">
+                            <h4>💸 Commission System</h4>
+                            <p>5% of your payment goes to platform maintenance</p>
+                            <p>95% goes directly to the seller</p>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Payment Instructions</h3>
+                            <div class="instruction-box">
+                                <p>1. 📱 Open your UPI app (Google Pay, PhonePe, Paytm, etc.)</p>
+                                <p>2. 💰 Send payment to the UPI ID shown above</p>
+                                <p>3. ✅ Click "Confirm Payment" below after payment</p>
+                                <p>4. 🚚 Your order will be delivered within <strong>24 hours</strong></p>
+                                <p>5. 📦 Track your order in "My Orders" section</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section" style="text-align: center; margin-top: 30px;">
+                            <button class="btn btn-primary btn-large" id="confirm-payment">
+                                <i class="fas fa-check-circle"></i> Confirm Payment
+                            </button>
+                            <button class="btn btn-secondary" id="cancel-payment" style="margin-left: 15px;">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order History Page -->
+    <div class="dashboard" id="order-history-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products-from-orders"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="orders-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">My Order History</h2>
+            <div class="orders-container" id="buyer-orders">
+                <!-- Orders loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI Management Page -->
+    <div class="dashboard" id="upi-management-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <span class="username">Seller</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-seller"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                        <a href="#" id="upi-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">Manage UPI ID</h2>
+            
+            <div class="card upi-management-container">
+                <div class="form-section">
+                    <h3>Current UPI ID</h3>
+                    <div class="current-upi-display">
+                        <span id="current-upi" style="font-size: 18px; color: var(--primary-green); font-weight: 600;">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Update UPI ID</h3>
+                    <div class="form-group">
+                        <label for="new-upi-id">New UPI ID</label>
+                        <input type="text" id="new-upi-id" placeholder="Enter your UPI ID (e.g., yourname@upi)">
+                        <small>This is where buyers will send payments. Make sure it's correct!</small>
+                    </div>
+                </div>
+
+                <div class="upi-info-box">
+                    <h4>💡 Important Information</h4>
+                    <ul>
+                        <li>✅ Buyers will pay directly to this UPI ID</li>
+                        <li>💰 You receive 95% of the payment instantly</li>
+                        <li>🏢 5% commission goes to platform maintenance</li>
+                        <li>📱 Make sure your UPI ID is active and correct</li>
+                        <li>🔒 Payments are secure and tracked</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section" style="text-align: center;">
+                    <button class="btn btn-primary" id="save-upi-id">
+                        <i class="fas fa-save"></i> Save UPI ID
+                    </button>
+                    <button class="btn btn-secondary" id="back-to-seller" style="margin-left: 15px;">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="add-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button class="close-btn" id="close-add-user">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new-username">Username</label>
+                    <input type="text" id="new-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Password</label>
+                    <input type="password" id="new-password" placeholder="Enter password">
+                </div>
+                <div class="form-group">
+                    <label for="new-role">Role</label>
+                    <select id="new-role">
+                        <option value="buyer">Buyer</option>
+                        <option value="seller">Seller</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-add-user">Cancel</button>
+                <button class="btn btn-primary" id="confirm-add-user">Add User</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
