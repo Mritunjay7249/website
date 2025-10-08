@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - MTD Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Buyer Dashboard -->
+    <div class="dashboard" id="buyer-dashboard">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username" id="buyer-username-display">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="view-orders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                        <a href="#" id="buyer-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">Fresh Products Available</h2>
+            <div class="products-grid" id="buyer-products">
+                <!-- Products loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Page -->
+    <div class="dashboard" id="order-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="order-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="order-container">
+                <div class="card order-card">
+                    <div class="order-image" id="order-product-image">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="order-details">
+                        <h2 id="order-product-name">Product Name</h2>
+                        <p id="order-product-description">Product description will appear here.</p>
+                        <div class="product-price" id="order-product-price">₹0 per kg</div>
+                        <div class="seller-info">
+                            <i class="fas fa-user"></i>
+                            Seller: <span id="order-seller">Unknown</span>
+                        </div>
+                        
+                        <div class="quantity-selector">
+                            <label>Quantity (kg):</label>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" id="decrease-quantity">-</button>
+                                <input type="number" id="order-quantity" value="1" min="1">
+                                <button class="quantity-btn" id="increase-quantity">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="summary-item">
+                                <span>Price per kg:</span>
+                                <span id="summary-price">₹0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Quantity:</span>
+                                <span id="summary-quantity">0 kg</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount:</span>
+                                <span>₹<span id="order-total">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-large" id="place-order">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div class="dashboard" id="payment-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products-from-payment"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="payment-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="order-container">
+                <div class="card">
+                    <h2 class="page-title">Complete Payment</h2>
+                    
+                    <div class="payment-details">
+                        <div class="delivery-timer">
+                            <h3>🚚 Fast Delivery Guaranteed</h3>
+                            <div class="time-remaining">Your order will be delivered within 24 hours</div>
+                            <div class="countdown-timer" id="countdown-timer">
+                                <!-- Countdown will be loaded by JavaScript -->
+                            </div>
+                            <div>Expected by: <span id="delivery-time">-</span></div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Order Summary</h3>
+                            <div class="summary-item">
+                                <span>Order ID:</span>
+                                <span id="payment-order-id">-</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount:</span>
+                                <span>₹<span id="payment-amount">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-breakdown">
+                            <h4>Payment Breakdown</h4>
+                            <div class="summary-item">
+                                <span>Seller UPI ID:</span>
+                                <span id="seller-upi-id" style="font-weight: 600; color: var(--primary-green);">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Admin Commission (5%):</span>
+                                <span>₹<span id="commission-amount">0</span></span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Seller Receives (95%):</span>
+                                <span>₹<span id="seller-amount">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="commission-display">
+                            <h4>💸 Commission System</h4>
+                            <p>5% of your payment goes to platform maintenance</p>
+                            <p>95% goes directly to the seller</p>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Payment Instructions</h3>
+                            <div class="instruction-box">
+                                <p>1. 📱 Open your UPI app (Google Pay, PhonePe, Paytm, etc.)</p>
+                                <p>2. 💰 Send payment to the UPI ID shown above</p>
+                                <p>3. ✅ Click "Confirm Payment" below after payment</p>
+                                <p>4. 🚚 Your order will be delivered within <strong>24 hours</strong></p>
+                                <p>5. 📦 Track your order in "My Orders" section</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section" style="text-align: center; margin-top: 30px;">
+                            <button class="btn btn-primary btn-large" id="confirm-payment">
+                                <i class="fas fa-check-circle"></i> Confirm Payment
+                            </button>
+                            <button class="btn btn-secondary" id="cancel-payment" style="margin-left: 15px;">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order History Page -->
+    <div class="dashboard" id="order-history-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">Buyer</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-products-from-orders"><i class="fas fa-arrow-left"></i> Back to Products</a>
+                        <a href="#" id="orders-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">My Order History</h2>
+            <div class="orders-container" id="buyer-orders">
+                <!-- Orders loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/buyer.js') }}"></script>
+</body>
+</html>

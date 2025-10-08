@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Fresh Tomatoes",
+    "price": 40.0,
+    "quantity": 50,
+    "description": "Organic, farm-fresh tomatoes with rich flavor and vibrant color. Perfect for salads and cooking.",
+    "image": "https://images.unsplash.com/photo-1546470427-e212b7d31075?w=400&h=300&fit=crop",
+    "seller": "Farmer Raj",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 2,
+    "name": "Premium Potatoes",
+    "price": 25,
+    "quantity": 100,
+    "description": "Fresh potatoes, perfect for various culinary preparations. High quality and long shelf life.",
+    "image": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop",
+    "seller": "Farmer Singh",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 3,
+    "name": "Organic Onions",
+    "price": 30,
+    "quantity": 80,
+    "description": "Premium quality onions with strong flavor and long shelf life. Organically grown.",
+    "image": "https://images.unsplash.com/photo-1506813257165-9cee8b6e86a5?w=400&h=300&fit=crop",
+    "seller": "Veggie Farms",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 4,
+    "name": "Sweet Carrots",
+    "price": 60,
+    "quantity": 40,
+    "description": "Sweet and crunchy carrots, rich in vitamins and nutrients. Fresh from the farm.",
+    "image": "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400&h=300&fit=crop",
+    "seller": "Green Fields",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 5,
+    "name": "Bell Peppers",
+    "price": 80,
+    "quantity": 30,
+    "description": "Colorful bell peppers, great for salads and cooking. Rich in vitamin C.",
+    "image": "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400&h=300&fit=crop",
+    "seller": "Organic Harvest",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 6,
+    "name": "Fresh Spinach",
+    "price": 35,
+    "quantity": 25,
+    "description": "Fresh leafy spinach, packed with iron and vitamins. Perfect for healthy meals.",
+    "image": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop",
+    "seller": "Leafy Greens",
+    "sellerId": "mrisell",
+    "category": "leafy-greens"
+  },
+  {
+    "id": 7,
+    "name": "Cucumbers",
+    "price": 20,
+    "quantity": 60,
+    "description": "Crisp and refreshing cucumbers, perfect for salads and summer dishes.",
+    "image": "https://images.unsplash.com/photo-1449300079327-02f967c8f540?w=400&h=300&fit=crop",
+    "seller": "Fresh Farms",
+    "sellerId": "mrisell",
+    "category": "vegetables"
+  },
+  {
+    "id": 8,
+    "name": "Sweet Apples",
+    "price": 120,
+    "quantity": 35,
+    "description": "Sweet and juicy apples, direct from the orchard. Rich in fiber and antioxidants.",
+    "image": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=300&fit=crop",
+    "seller": "Orchard Fresh",
+    "sellerId": "mrisell",
+    "category": "fruits"
+  }
+]

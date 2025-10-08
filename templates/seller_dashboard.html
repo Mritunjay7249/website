@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - MTD Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Seller Dashboard -->
+    <div class="dashboard" id="seller-dashboard">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <span class="username" id="seller-username-display">Seller</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="view-sales"><i class="fas fa-chart-line"></i> Sales Analytics</a>
+                        <a href="#" id="view-products"><i class="fas fa-boxes"></i> My Products</a>
+                        <a href="#" id="view-upi-settings"><i class="fas fa-money-bill-wave"></i> UPI Settings</a>
+                        <a href="#" id="seller-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <div class="seller-tabs">
+                <button class="tab-btn active" data-tab="add-product">Add Product</button>
+                <button class="tab-btn" data-tab="my-products">My Products</button>
+                <button class="tab-btn" data-tab="sales-analytics">Sales Analytics</button>
+            </div>
+
+            <div class="tab-content active" id="add-product-tab">
+                <h2 class="page-title">Add New Product</h2>
+                <div class="card add-product-form">
+                    <div class="form-section">
+                        <label for="product-image">Product Image</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="image-preview">
+                                <i class="fas fa-image"></i>
+                                <span>No image selected</span>
+                            </div>
+                            <input type="file" id="product-image" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-secondary" id="upload-image-btn">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <label for="product-image-url">Or Enter Image URL</label>
+                        <input type="text" id="product-image-url" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                        <small style="color: var(--text-gray); font-size: 12px; margin-top: 4px; display: block;">
+                            Enter a direct image URL instead of uploading
+                        </small>
+                    </div>
+                    
+                    <div class="form-section">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" placeholder="Enter product name">
+                    </div>
+                    <div class="form-section">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" placeholder="Enter product description"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label for="product-price">Price per kg (₹)</label>
+                            <input type="number" id="product-price" placeholder="Enter price">
+                        </div>
+                        <div class="form-section">
+                            <label for="product-quantity">Available Quantity (kg)</label>
+                            <input type="number" id="product-quantity" placeholder="Enter quantity">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="add-product">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="my-products-tab">
+                <h2 class="page-title">My Products</h2>
+                <div class="products-grid" id="seller-products">
+                    <!-- Seller's products loaded by JavaScript -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="sales-analytics-tab">
+                <h2 class="page-title">Sales Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-orders">0</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="total-revenue">0</span></div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="products-listed">0</div>
+                            <div class="stat-label">Products Listed</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="total-commission">0</span></div>
+                            <div class="stat-label">Total Commission</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">₹<span id="net-revenue">0</span></div>
+                            <div class="stat-label">Net Revenue</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Recent Orders</h3>
+                    <div class="orders-list" id="seller-orders">
+                        <!-- Orders loaded by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="edit-product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <button class="close-btn" id="close-edit-product">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-product-id">
+                
+                <div class="form-group">
+                    <label for="edit-product-image-url">Product Image URL</label>
+                    <input type="text" id="edit-product-image-url" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                    <small style="color: var(--text-gray); font-size: 12px; margin-top: 4px; display: block;">
+                        Enter a direct image URL or upload an image below
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Or Upload Image</label>
+                    <div class="image-upload-container">
+                        <div class="image-preview" id="edit-image-preview">
+                            <i class="fas fa-image"></i>
+                            <span>No image selected</span>
+                        </div>
+                        <input type="file" id="edit-product-image" accept="image/*" style="display: none;">
+                        <button type="button" class="btn btn-secondary" id="edit-upload-image-btn">
+                            <i class="fas fa-upload"></i> Upload Image
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input type="text" id="edit-product-name" placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-description">Description</label>
+                    <textarea id="edit-product-description" placeholder="Enter product description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-price">Price per kg (₹)</label>
+                        <input type="number" id="edit-product-price" placeholder="Enter price">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-quantity">Available Quantity (kg)</label>
+                        <input type="number" id="edit-product-quantity" placeholder="Enter quantity">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-edit-product">Cancel</button>
+                <button class="btn btn-primary" id="save-product">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI Management Page -->
+    <div class="dashboard" id="upi-management-page">
+        <div class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>MTD Store</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <span class="username">Seller</span>
+                    <div class="user-dropdown">
+                        <a href="#" id="back-to-seller"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                        <a href="#" id="upi-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container main-content">
+            <h2 class="page-title">Manage UPI ID</h2>
+            
+            <div class="card upi-management-container">
+                <div class="form-section">
+                    <h3>Current UPI ID</h3>
+                    <div class="current-upi-display">
+                        <span id="current-upi" style="font-size: 18px; color: var(--primary-green); font-weight: 600;">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Update UPI ID</h3>
+                    <div class="form-group">
+                        <label for="new-upi-id">New UPI ID</label>
+                        <input type="text" id="new-upi-id" placeholder="Enter your UPI ID (e.g., yourname@upi)">
+                        <small>This is where buyers will send payments. Make sure it's correct!</small>
+                    </div>
+                </div>
+
+                <div class="upi-info-box">
+                    <h4>💡 Important Information</h4>
+                    <ul>
+                        <li>✅ Buyers will pay directly to this UPI ID</li>
+                        <li>💰 You receive 95% of the payment instantly</li>
+                        <li>🏢 5% commission goes to platform maintenance</li>
+                        <li>📱 Make sure your UPI ID is active and correct</li>
+                        <li>🔒 Payments are secure and tracked</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section" style="text-align: center;">
+                    <button class="btn btn-primary" id="save-upi-id">
+                        <i class="fas fa-save"></i> Save UPI ID
+                    </button>
+                    <button class="btn btn-secondary" id="back-to-seller-dash" style="margin-left: 15px;">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- UPI Management Page -->
+<div class="dashboard" id="upi-management-page" style="display: none;">
+    <!-- ... rest of the UPI management HTML ... -->
+</div>
+<button class="btn btn-secondary" id="back-to-seller-from-upi" style="margin-left: 15px;">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/seller.js') }}"></script>
+</body>
+</html>
